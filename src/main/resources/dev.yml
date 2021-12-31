@@ -1,0 +1,11 @@
+serverPort: 31994
+serverLogFile: server.out
+
+security:
+  encriptorKey: K0s#k$plm9*48C5!
+  vector: b7$2ssRxZ1vM6!-V
+  changeEncryptionPeriod: 50000
+
+waitingRoom:
+  maxPoolSize: 150
+

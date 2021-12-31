@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'com.xlip.objectstream'
+version '1.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+
+dependencies {
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.11'
+    implementation 'com.xlip.objectstream:objectStream-communication:1.0'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+jar {
+    manifest {
+        attributes(
+                "Class-Path": configurations.runtimeClasspath.collect { it.getName() }.join(' '),
+                'Main-Class': 'com.xlip.objectstream.server.Server'
+        )
+    }
+    from {
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    into 'resources', {
+        from 'src/main/resources'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
